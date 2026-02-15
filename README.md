@@ -122,6 +122,47 @@ Required environment variables (see `.env.example`):
 - CORS is configured for secure cross-origin requests
 - Environment variables for sensitive data
 
+## Database Migrations
+
+This project uses Alembic for database migrations.
+
+### Creating Initial Migration
+
+For a fresh database setup:
+
+```bash
+# Ensure your .env file has the correct DATABASE_URL
+# Generate initial migration
+alembic revision --autogenerate -m "Initial migration"
+
+# Apply migration
+alembic upgrade head
+```
+
+### Creating Subsequent Migrations
+
+After making changes to models:
+
+```bash
+# Generate migration based on model changes
+alembic revision --autogenerate -m "Description of changes"
+
+# Apply the migration
+alembic upgrade head
+```
+
+### Rolling Back Migrations
+
+```bash
+# Rollback one migration
+alembic downgrade -1
+
+# Rollback to specific revision
+alembic downgrade <revision_id>
+```
+
+**Note:** For development/testing, you can use SQLite which will auto-create tables. For production, always use migrations.
+
 ## Development
 
 ### Adding New Endpoints

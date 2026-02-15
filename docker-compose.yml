@@ -4,9 +4,9 @@ services:
   db:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: wakmon
-      POSTGRES_PASSWORD: wakmon123
-      POSTGRES_DB: wakmon_db
+      POSTGRES_USER: ${DB_USER:-wakmon}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-wakmon123}
+      POSTGRES_DB: ${DB_NAME:-wakmon_db}
     ports:
       - "5432:5432"
     volumes:
@@ -16,9 +16,8 @@ services:
     build: .
     ports:
       - "8000:8000"
-    environment:
-      DATABASE_URL: postgresql://wakmon:wakmon123@db:5432/wakmon_db
-      SECRET_KEY: your-secret-key-change-in-production
+    env_file:
+      - .env
     depends_on:
       - db
     volumes:

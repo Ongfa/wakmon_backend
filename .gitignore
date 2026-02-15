@@ -46,6 +46,10 @@ htmlcov/
 *.db
 *.sqlite3
 
+# Alembic
+# Uncomment if you don't want to track migrations in version control
+# alembic/versions/*.py
+
 # Logs
 *.log
 
