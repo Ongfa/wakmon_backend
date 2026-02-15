@@ -34,6 +34,27 @@ wakmon_backend/
 └── docker-compose.yml
 ```
 
+## Quick Start with Make
+
+This project includes a Makefile for common tasks:
+
+```bash
+# See all available commands
+make help
+
+# Install dependencies
+make install
+
+# Run tests
+make test
+
+# Run the application
+make run
+
+# Start with Docker
+make docker-up
+```
+
 ## Setup
 
 ### Local Development
@@ -164,6 +185,27 @@ alembic downgrade <revision_id>
 **Note:** For development/testing, you can use SQLite which will auto-create tables. For production, always use migrations.
 
 ## Development
+
+### Code Quality Tools
+
+Install development dependencies:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+#### Formatting and Linting
+
+```bash
+# Format code with black
+black app/ tests/
+
+# Lint with ruff
+ruff check app/ tests/
+
+# Type checking with mypy
+mypy app/
+```
 
 ### Adding New Endpoints
 
