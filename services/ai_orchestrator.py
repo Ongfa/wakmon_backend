@@ -1,18 +1,29 @@
 from core.provider import GeminiProvider
 from core.validator import validate_with_retry
-from schemas.analysis import AnalysisResult
+from schemas.analysis import AnalysisResult, InvestmentFormData
 
 
 class AIOrchestrator:
 
-    async def analyze(self, data):
-        prompt = self._build_prompt(data)
+    def __init__(self):
+        self.provider = GeminiProvider()
 
-        raw_response = await GeminiProvider().generate(prompt)
+    async def analyze(self, data: InvestmentFormData):
+        system_prompt = """
+        You are a financial analysis assistant.
+        Return ONLY valid JSON matching the required schema.
+        """
+        user_prompt = f"""
+              Analyze the following portfolio data:
+              {data.model_dump_json()}
+              """
+        full_prompt = f"{system_prompt}\n\n{user_prompt}"
 
         validated = await validate_with_retry(
-            raw_response,
-            AnalysisResult
+            provider=self.provider,
+            prompt=full_prompt,
+            schema=AnalysisResult,
+            max_retries=2
         )
 
         return validated
