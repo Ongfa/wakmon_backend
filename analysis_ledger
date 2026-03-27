@@ -1,0 +1,35 @@
+financial_line_items
+--------------------
+company_id
+period_start
+period_end
+statement_type   (INCOME_STATEMENT)
+line_item_type   (REVENUE / COGS / OPEX / TAX)
+line_item_name   (Sales, Employee Cost, etc.)
+value
+currency
+source_document_id
+confidence_score
+
+
+- Store facts, compute the conclusions
+
+
+financial_metrics
+-----------------
+company_id
+period
+metric_name     (GROSS_PROFIT / NET_PROFIT / EBITDA)
+value
+formula_version
+
+
+Document metadata table
+
+documents
+---------
+document_id
+company_id
+document_type
+upload_time
+retention_expiry
