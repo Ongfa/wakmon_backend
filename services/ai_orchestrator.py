@@ -8,7 +8,8 @@ class AIOrchestrator:
     def __init__(self):
         self.provider = GeminiProvider()
 
-    async def analyze(self, data: InvestmentFormData):
+    async def analyze(self, data: InvestmentFormData) -> AnalysisResult:
+        prompt = self._build_prompt(data)
         system_prompt = """
         You are a financial analysis assistant.
         Return ONLY valid JSON matching the required schema.

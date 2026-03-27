@@ -4,7 +4,8 @@ from schemas.analysis import InvestmentFormData, AnalysisResult
 from services import ai_orchestrator
 from core.provider import GeminiProvider
 from schemas.test_schema import SimpleAIResponse
-
+from schemas.financial import FinancialInput, RedFlagResult
+from services.financial_engine import compute_metrics, detect_mechanical_flags
 
 router = APIRouter()
 
@@ -22,12 +23,26 @@ async def test_ai():
     )
 
     # Extract text from Gemini response
-    text = result["candidates"][0]["content"]["parts"][0]["text"]
+    print("FULL RESULT:", result)
 
-    return SimpleAIResponse.model_validate_json(text)
+    return result
+    # text = result["choices"][0]["content"]["parts"][0]["text"]
+    #
+    # return SimpleAIResponse.model_validate_json(text)
 
 
 @router.post("/portfolio/analyze", response_model=AnalysisResult)
 async def analyze_portfolio(data: InvestmentFormData):
     result = await ai_orchestrator.analyze(data)
     return result
+
+
+@router.post("/financial/redflags", response_model=RedFlagResult)
+async def financial_redflags(data: FinancialInput):
+    metrics = compute_metrics(data)
+    flags = detect_mechanical_flags(metrics)
+
+    return RedFlagResult(
+        metrics=metrics,
+        red_flags=flags
+    )
