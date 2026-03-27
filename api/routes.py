@@ -1,13 +1,14 @@
 from fastapi import APIRouter
 
 from schemas.analysis import InvestmentFormData, AnalysisResult
-from services import ai_orchestrator
+from services.portfolio_service import PortfolioService
 from core.provider import GeminiProvider
 from schemas.test_schema import SimpleAIResponse
 from schemas.financial import FinancialInput, RedFlagResult
 from services.financial_engine import compute_metrics, detect_mechanical_flags
 
 router = APIRouter()
+portfolio_service = PortfolioService()
 
 
 @router.get("/")
@@ -33,7 +34,7 @@ async def test_ai():
 
 @router.post("/portfolio/analyze", response_model=AnalysisResult)
 async def analyze_portfolio(data: InvestmentFormData):
-    result = await ai_orchestrator.analyze(data)
+    result = await portfolio_service.analyze_portfolio(data)
     return result
 
 
