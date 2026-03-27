@@ -5,7 +5,7 @@ POST /portfolio/analyze
 
 → Orchestrator
 
-→ Provider (Gemini)
+→ Provider
 
 → validate_with_retry
 
