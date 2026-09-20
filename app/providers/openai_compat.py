@@ -22,6 +22,7 @@ class OpenAICompatProvider(LLMProvider):
         api_key: Optional[str],
         description: str = "",
         extra_headers: Optional[dict[str, str]] = None,
+        extra_body: Optional[dict] = None,
         require_key: bool = True,
     ) -> None:
         self.id = provider_id
@@ -32,6 +33,7 @@ class OpenAICompatProvider(LLMProvider):
         self.base_url = base_url.rstrip("/")
         self.api_key = (api_key or "").strip()
         self.extra_headers = extra_headers or {}
+        self.extra_body = extra_body or {}
         self.require_key = require_key
 
     @property
@@ -68,6 +70,7 @@ class OpenAICompatProvider(LLMProvider):
             "messages": messages,
             "temperature": temperature,
             "max_tokens": max_tokens,
+            **self.extra_body,
         }
 
         started = time.perf_counter()

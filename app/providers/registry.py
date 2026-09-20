@@ -31,7 +31,8 @@ def build_providers() -> list[LLMProvider]:
             family="meta",
             base_url="https://api.groq.com/openai/v1",
             api_key=settings.GROQ_API_KEY,
-            description="Meta Llama via Groq — very low latency",
+            description="Groq-hosted GPT-OSS 120B (Llama 3.3 successor) — very low latency",
+            extra_body={"reasoning_effort": "low"},
         ),
         OpenAICompatProvider(
             provider_id="mistral",
