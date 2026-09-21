@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Sequence
 
 from app.core.config import settings
-from app.providers.anthropic import AnthropicProvider
 from app.providers.base import LLMProvider
 from app.providers.gemini import GeminiProvider
 from app.providers.mock import MockProvider
@@ -11,18 +10,8 @@ from app.providers.openai_compat import OpenAICompatProvider
 
 
 def build_providers() -> list[LLMProvider]:
-    """Construct every known provider. Availability depends on API keys."""
+    """Construct Council providers. Availability depends on API keys."""
     providers: list[LLMProvider] = [
-        OpenAICompatProvider(
-            provider_id="openai",
-            name="GPT",
-            model=settings.OPENAI_MODEL,
-            family="openai",
-            base_url="https://api.openai.com/v1",
-            api_key=settings.OPENAI_API_KEY,
-            description="OpenAI GPT — strong general reasoning",
-        ),
-        AnthropicProvider(api_key=settings.ANTHROPIC_API_KEY, model=settings.ANTHROPIC_MODEL),
         GeminiProvider(api_key=settings.GEMINI_API_KEY, model=settings.GEMINI_MODEL),
         OpenAICompatProvider(
             provider_id="groq",
@@ -36,12 +25,12 @@ def build_providers() -> list[LLMProvider]:
         ),
         OpenAICompatProvider(
             provider_id="mistral",
-            name="Mistral",
+            name="Mistral AI",
             model=settings.MISTRAL_MODEL,
             family="mistral",
             base_url="https://api.mistral.ai/v1",
             api_key=settings.MISTRAL_API_KEY,
-            description="Mistral — efficient European open-weight models",
+            description="Mistral AI — efficient European open-weight models",
         ),
     ]
 

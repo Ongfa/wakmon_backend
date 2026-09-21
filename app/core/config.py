@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY: str = ""
     GROQ_MODEL: str = "openai/gpt-oss-120b"
     MISTRAL_API_KEY: str = ""
-    MISTRAL_MODEL: str = "mistral-small-latest"
+    MISTRAL_MODEL: str = "ministral-8b-latest"
     OLLAMA_ENABLED: bool = False
     OLLAMA_BASE_URL: str = "http://127.0.0.1:11434"
     OLLAMA_API_KEY: str = ""

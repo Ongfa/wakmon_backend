@@ -42,8 +42,7 @@ class MockProvider(LLMProvider):
             f"Prompt received: {snippet}\n\n"
             "View:\n"
             "- Treat this as a wiring check, not investment advice.\n"
-            "- Add OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, "
-            "or MISTRAL_API_KEY to get real multi-model answers.\n"
+            "- Add GEMINI_API_KEY, GROQ_API_KEY, or MISTRAL_API_KEY to get real multi-model answers.\n"
             "- For Indian-market questions, compare valuation, cash flow quality, "
             "and values alignment before sizing a position."
         )
