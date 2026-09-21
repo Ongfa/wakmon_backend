@@ -5,7 +5,7 @@ from core.config import GEMINI_API_KEY
 class GeminiProvider:
 
     async def generate(self, prompt: str):
-        url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent"
+        url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
 
         headers = {
             "Content-Type": "application/json"

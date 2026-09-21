@@ -26,3 +26,12 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q"
+collect_ignore_glob = ["* 2.*", "* 3.*", "* 4.*"]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
