@@ -17,20 +17,13 @@ class Settings(BaseSettings):
     # Database
     DATABASE_URL: str = "sqlite:///./wakmon.db"
 
-    # CORS — add production frontend origins via FRONTEND_ORIGIN (comma-separated)
+    # CORS
     BACKEND_CORS_ORIGINS: List[str] = [
         "http://localhost:3000",
         "http://localhost:8080",
         "http://127.0.0.1:8080",
         "http://localhost:5173",
-        "https://wakmon.com",
-        "https://www.wakmon.com",
     ]
-    FRONTEND_ORIGIN: str = ""
-    CORS_ORIGIN_REGEX: str = (
-        r"https://.*\.(lovable\.app|lovableproject\.com)"
-        r"|http://(localhost|127\.0\.0\.1|\[::1\]):\d+"
-    )
 
     # LLM providers — keys stay server-side
     OPENAI_API_KEY: str = ""
@@ -40,9 +33,9 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: str = ""
     GEMINI_MODEL: str = "gemini-2.5-flash"
     GROQ_API_KEY: str = ""
-    GROQ_MODEL: str = "openai/gpt-oss-120b"
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
     MISTRAL_API_KEY: str = ""
-    MISTRAL_MODEL: str = "ministral-8b-latest"
+    MISTRAL_MODEL: str = "mistral-small-latest"
     OLLAMA_ENABLED: bool = False
     OLLAMA_BASE_URL: str = "http://127.0.0.1:11434"
     OLLAMA_API_KEY: str = ""
@@ -56,17 +49,6 @@ class Settings(BaseSettings):
         case_sensitive=True,
         extra="ignore",
     )
-
-    @property
-    def cors_origins(self) -> List[str]:
-        origins: list[str] = []
-        for origin in list(self.BACKEND_CORS_ORIGINS) + [
-            item.strip() for item in self.FRONTEND_ORIGIN.split(",")
-        ]:
-            cleaned = origin.rstrip("/")
-            if cleaned and cleaned not in origins:
-                origins.append(cleaned)
-        return origins
 
 
 settings = Settings()

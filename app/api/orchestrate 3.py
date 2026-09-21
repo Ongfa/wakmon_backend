@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import json
+from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from fastapi.responses import StreamingResponse
 
-from app.api.deps import verify_llm_access
+from app.core.config import settings
 from app.schemas.orchestrate import (
     ModelListResponse,
     OrchestrateRequest,
@@ -20,9 +21,22 @@ def get_orchestrator() -> Orchestrator:
     return Orchestrator()
 
 
+def verify_orchestrate_access(
+    x_orchestrate_key: Optional[str] = Header(default=None, alias="X-Orchestrate-Key"),
+) -> None:
+    expected = (settings.ORCHESTRATE_API_KEY or "").strip()
+    if not expected:
+        return
+    if (x_orchestrate_key or "").strip() != expected:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid orchestration API key",
+        )
+
+
 @router.get("/models", response_model=ModelListResponse)
 def list_models(
-    _: None = Depends(verify_llm_access),
+    _: None = Depends(verify_orchestrate_access),
     orchestrator: Orchestrator = Depends(get_orchestrator),
 ):
     models = [provider.info().to_dict() for provider in orchestrator.all_providers()]
@@ -35,7 +49,7 @@ def list_models(
 @router.post("", response_model=OrchestrateResponse)
 async def orchestrate(
     payload: OrchestrateRequest,
-    _: None = Depends(verify_llm_access),
+    _: None = Depends(verify_orchestrate_access),
     orchestrator: Orchestrator = Depends(get_orchestrator),
 ):
     try:
@@ -56,7 +70,7 @@ async def orchestrate(
 @router.post("/stream")
 async def orchestrate_stream(
     payload: OrchestrateRequest,
-    _: None = Depends(verify_llm_access),
+    _: None = Depends(verify_orchestrate_access),
     orchestrator: Orchestrator = Depends(get_orchestrator),
 ):
     async def event_source():
