@@ -19,9 +19,6 @@ jobs:
     name: Backend
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: .
     env:
       DATABASE_URL: sqlite:///./test.db
     steps:
@@ -41,4 +38,4 @@ jobs:
           pip install -r requirements.txt
 
       - name: Test
-        run: pytest tests/test_main.py tests/test_orchestrator.py
+        run: pytest tests/test_main.py tests/test_auth.py
