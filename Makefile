@@ -1,5 +1,9 @@
 .PHONY: help install install-dev test test-cov run format lint type-check clean migrate-create migrate-up migrate-down docker-up docker-down
 
+# Homebrew uvicorn has no FastAPI. Always run through the project venv.
+VENV := .venv
+PYTHON := $(VENV)/bin/python
+
 help:
 	@echo "Available commands:"
 	@echo "  make install       - Install production dependencies"
@@ -17,20 +21,24 @@ help:
 	@echo "  make docker-up     - Start docker containers"
 	@echo "  make docker-down   - Stop docker containers"
 
-install:
-	pip install -r requirements.txt
+$(PYTHON):
+	python3 -m venv $(VENV)
+	$(PYTHON) -m pip install --upgrade pip
 
-install-dev:
-	pip install -r requirements-dev.txt
+install: $(PYTHON)
+	$(PYTHON) -m pip install -r requirements.txt
 
-test:
-	pytest -v
+install-dev: $(PYTHON)
+	$(PYTHON) -m pip install -r requirements-dev.txt
 
-test-cov:
-	pytest --cov=app --cov-report=html --cov-report=term
+test: $(PYTHON)
+	$(PYTHON) -m pytest -v
 
-run:
-	uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+test-cov: $(PYTHON)
+	$(PYTHON) -m pytest --cov=app --cov-report=html --cov-report=term
+
+run: $(PYTHON)
+	$(PYTHON) -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 format:
 	black app/ tests/
