@@ -1,3 +1,5 @@
+[tool.fastapi]
+entrypoint = "main:app"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
@@ -18,10 +20,10 @@ ignore = [
 
 [tool.black]
 line-length = 100
-target-version = ['py311']
+target-version = ['py314']
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.14.6"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false

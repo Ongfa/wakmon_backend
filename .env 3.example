@@ -13,13 +13,8 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 API_V1_STR=/api/v1
 PROJECT_NAME=Wakmon Backend
 
-# CORS (Vite frontend runs on 8080). Add the production SPA origin here.
+# CORS (Vite frontend runs on 8080)
 BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:8080","http://127.0.0.1:8080"]
-FRONTEND_ORIGIN=http://localhost:8080
-
-# Frontend (wakmon/.env) must point at this API in production:
-# VITE_BACKEND_URL=https://your-fastapi-host
-# Optional: VITE_ORCHESTRATE_API_KEY=same-as-ORCHESTRATE_API_KEY
 
 # Database credentials (for docker-compose)
 DB_USER=wakmon
@@ -34,9 +29,9 @@ ANTHROPIC_MODEL=claude-3-5-haiku-20241022
 GEMINI_API_KEY=
 GEMINI_MODEL=gemini-2.5-flash
 GROQ_API_KEY=
-GROQ_MODEL=openai/gpt-oss-120b
+GROQ_MODEL=llama-3.3-70b-versatile
 MISTRAL_API_KEY=
-MISTRAL_MODEL=ministral-8b-latest
+MISTRAL_MODEL=mistral-small-latest
 OLLAMA_ENABLED=false
 OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_MODEL=llama3.1
